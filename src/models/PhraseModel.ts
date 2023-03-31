@@ -1,5 +1,5 @@
 import { Model, DataTypes } from "sequelize";
-import { sequelize } from "../connections/pg";
+import { sequelize } from "../instances/pg";
 
 export interface PhraseInstance extends Model {
     id: number;

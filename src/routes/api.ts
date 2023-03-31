@@ -7,5 +7,7 @@ router.get('/ping', ApiController.ping)
 router.get('/random', ApiController.random)
 router.get('/nome/:nome', ApiController.nome)
 
+router.post('/frases', ApiController.createPhases)
+
 
 export default router;
