@@ -29,19 +29,29 @@ export const listPhrases = async (req: Request, res: Response) => {
 }
 
 export const getPhrases = async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id)
 
-    if (isNaN(id) || !Number.isInteger(id) || id < 0) {
-        res.status(400).send({ error: 'Valor do parâmetro id inválido' });
-        return;
-    }
-
-    const listbyId = await Phrase.findByPk(id)
+    const listbyId = await Phrase.findByPk(req.params.id)
 
     if (!listbyId) {
         return res.status(404).json({ error: 'Frases não encontrada' });
     }
 
     res.json({ frase: listbyId })
+}
+
+export const updatePhrases = async (req: Request, res: Response) => {
+    const { author, txt } = req.body
+    const updatePhrase = await Phrase.findByPk(req.params.id)
+
+    if (updatePhrase) {
+        updatePhrase.author = author;
+        updatePhrase.txt = txt;
+
+        await updatePhrase.save()
+
+        res.json(updatePhrase);
+    } else {
+        return res.status(404).json({ error: 'Frases não encontrada' });
+    }
 }
 
