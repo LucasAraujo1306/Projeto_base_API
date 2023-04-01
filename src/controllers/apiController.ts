@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-
+import { Sequelize } from "sequelize";
 import { Phrase } from '../models/PhraseModel'
 
 export const ping = (req: Request, res: Response) => {
@@ -55,10 +55,23 @@ export const updatePhrase = async (req: Request, res: Response) => {
     }
 }
 
-
 export const deletePhrase = async (req: Request, res: Response) => {
     const id = parseInt(req.params.id)
     await Phrase.destroy({ where: { id } })
 
     res.status(204).json()
+}
+
+export const randomPhrases = async (req: Request, res: Response) => {
+    const phrases = await Phrase.findOne({
+        order: [
+            Sequelize.fn('RANDOM')
+        ]
+    })
+    if (phrases) {
+        res.json({ phrases })
+    } else {
+        res.status(404).json({ error: 'Não há frases cadastradas' });
+    }
+
 }
