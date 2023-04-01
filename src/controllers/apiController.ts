@@ -16,9 +16,23 @@ export const nome = (req: Request, res: Response) => {
     res.json({ nome });
 }
 
-export const createPhases = async (req: Request, res: Response) => {
+export const createPhrases = async (req: Request, res: Response) => {
     let { author, txt } = req.body
 
     const newPhrase = await Phrase.create({ author, txt });
-    res.status(200).json({ id: newPhrase.id, author, txt })
+    res.status(201).json({ id: newPhrase.id, author, txt })
 }
+
+export const listPhrases = async (req: Request, res: Response) => {
+    const list = await Phrase.findAll();
+    res.json({ list });
+}
+
+export const getPhrases = async (req: Request, res: Response) => {
+    const listbyId = await Phrase.findByPk(req.params.id)
+    if (!listbyId) {
+        return res.status(404).json({ error: 'Frases não encontrada' });
+    }
+    res.json({ frase: listbyId })
+}
+
