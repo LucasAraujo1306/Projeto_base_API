@@ -30,7 +30,7 @@ export const listPhrases = async (req: Request, res: Response) => {
 
 export const getPhrases = async (req: Request, res: Response) => {
 
-    const listbyId = await Phrase.findByPk(req.params.id)
+    const listbyId = await Phrase.findByPk(parseInt(req.params.id))
 
     if (!listbyId) {
         return res.status(404).json({ error: 'Frases não encontrada' });
@@ -39,9 +39,9 @@ export const getPhrases = async (req: Request, res: Response) => {
     res.json({ frase: listbyId })
 }
 
-export const updatePhrases = async (req: Request, res: Response) => {
+export const updatePhrase = async (req: Request, res: Response) => {
     const { author, txt } = req.body
-    const updatePhrase = await Phrase.findByPk(req.params.id)
+    const updatePhrase = await Phrase.findByPk(parseInt(req.params.id))
 
     if (updatePhrase) {
         updatePhrase.author = author;
@@ -55,3 +55,10 @@ export const updatePhrases = async (req: Request, res: Response) => {
     }
 }
 
+
+export const deletePhrase = async (req: Request, res: Response) => {
+    const id = parseInt(req.params.id)
+    await Phrase.destroy({ where: { id } })
+
+    res.status(204).json()
+}

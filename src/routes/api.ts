@@ -11,6 +11,7 @@ router.get('/nome/:nome', ApiController.nome)
 router.post('/frases', ApiController.createPhrases)
 router.get('/frases', ApiController.listPhrases)
 router.get('/frases/:id', validateId, ApiController.getPhrases)
-router.put('/frases/:id', validateId, ApiController.updatePhrases)
+router.put('/frases/:id', validateId, ApiController.updatePhrase)
+router.delete('/frases/:id', validateId, ApiController.deletePhrase)
 
 export default router;
