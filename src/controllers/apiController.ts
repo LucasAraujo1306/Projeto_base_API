@@ -29,10 +29,19 @@ export const listPhrases = async (req: Request, res: Response) => {
 }
 
 export const getPhrases = async (req: Request, res: Response) => {
-    const listbyId = await Phrase.findByPk(req.params.id)
+    const id = parseInt(req.params.id)
+
+    if (isNaN(id) || !Number.isInteger(id) || id < 0) {
+        res.status(400).send({ error: 'Valor do parâmetro id inválido' });
+        return;
+    }
+
+    const listbyId = await Phrase.findByPk(id)
+
     if (!listbyId) {
         return res.status(404).json({ error: 'Frases não encontrada' });
     }
+
     res.json({ frase: listbyId })
 }
 
